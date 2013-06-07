@@ -29,7 +29,6 @@ namespace MicroDAQ
             ShowItems();
             ShowDB();
         }
-
         void bkwConnect_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -98,12 +97,13 @@ namespace MicroDAQ
                             lsvItems.Items[i - 1].SubItems[3].Text = "流量";
                             lsvItems.Items[i - 1].SubItems[4].Text = meter.State.ToString();
                             lsvItems.Items[i - 1].SubItems[5].Text = meter.Quality.ToString();
-                        }
+                        }                      
+                        
                     }
 
 
                 switch (Program.M.ConnectionState)
-                {
+                {                    
                     case ConnectionState.Closed:
                         this.labOPCState.BackColor = Color.Red;
                         this.labOPCState.ForeColor = Color.Yellow;
@@ -179,15 +179,7 @@ namespace MicroDAQ
         }
 
         private void DataDisplayForm_SizeChanged(object sender, EventArgs e)
-        {
-            //this.btnRefreshData.Location = new Point(this.Width - 150, 50);
-            //this.btnRefreshDB.Location = new Point(this.btnRefreshData.Location.X, this.Height / 2 + 50);
-            //this.labOPCState.Location = new Point(this.btnRefreshData.Location.X, this.btnRefreshData.Location.Y + 80);
-            //this.labDBState.Location = new Point(this.btnRefreshDB.Location.X, this.btnRefreshDB.Location.Y + 80);
-            //this.label1.Location = new Point(this.labOPCState.Location.X, this.labOPCState.Location.Y - 20);
-            //this.label3.Location = new Point(this.labDBState.Location.X, this.labDBState.Location.Y - 20);
-
-
+        {        
             this.lsvItems.Size = new Size(this.Width - 200, this.Height / 2 - 40);
             this.dgvDB.Size = new Size(this.Width - 200, this.Height / 2 - 40);
             this.lsvItems.Location = new Point(10, 10);
@@ -253,10 +245,11 @@ namespace MicroDAQ
             }
             catch
             { };
-
             this.btnInstant.Enabled = true;
+
         }
-        Form testAlarm = null;
+
+        TestAlarm testAlarm = null;
         private void btnTestAlarm_Click(object sender, EventArgs e)
         {
             if (testAlarm != null && !testAlarm.IsDisposed)
@@ -264,5 +257,6 @@ namespace MicroDAQ
             else
                 (testAlarm = new TestAlarm()).Show();
         }
+       
     }
 }

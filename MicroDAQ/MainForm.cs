@@ -164,9 +164,6 @@ namespace MicroDAQ
         private void CreateMeters()
         {
             int count = dataItems.Length;
-
-
-
             List<string> h = new List<string>();
             List<string> d = new List<string>();
 
@@ -211,8 +208,6 @@ namespace MicroDAQ
 
         int updateMeters;
         int remoteMeters;
-
-
         private void update2()
         {
             foreach (var item in Program.M.Items)
@@ -277,7 +272,6 @@ namespace MicroDAQ
             {
 
                 CreateMeters();
-
                 started = true;
                 UpdateCycle = new CycleTask();
                 RemoteCtrl = new CycleTask();
@@ -392,7 +386,6 @@ namespace MicroDAQ
         }
 
 
-
         private void ni_DoubleClick(object sender, EventArgs e)
         {
             switch (this.WindowState)
@@ -405,13 +398,18 @@ namespace MicroDAQ
                     break;
             }
         }
-        Form frmDataDisplay = null;
+        FormDemo demo = null;
+       //DataDisplayForm frmDataDisplay = null;
         private void tsslMeters_Click(object sender, EventArgs e)
         {
-            if (frmDataDisplay != null && !frmDataDisplay.IsDisposed)
-                frmDataDisplay.Show();
+            //if (frmDataDisplay != null && !frmDataDisplay.IsDisposed)
+            //    frmDataDisplay.Show();
+            //else
+            //    (frmDataDisplay = new DataDisplayForm()).Show();
+            if (demo != null && !demo.IsDisposed)
+                demo.Show();
             else
-                (frmDataDisplay = new DataDisplayForm()).Show();
+                (demo = new FormDemo()).Show();
         }
 
     }

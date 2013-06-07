@@ -38,41 +38,49 @@ namespace MicroDAQ
                     IniFile ini = new IniFile(AppDomain.CurrentDomain.BaseDirectory + "MicroDAQ.ini");
 
                     DatabaseManager = new DatabaseManager(ini.GetValue("Database", "Address"),
-                                                        ini.GetValue("Database", "Port"),
-                                                        ini.GetValue("Database", "Database"),
-                                                        ini.GetValue("Database", "Username"),
-                                                        ini.GetValue("Database", "Password"));
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
+                                                          ini.GetValue("Database", "Port"),
+                                                          ini.GetValue("Database", "Database"),
+                                                          ini.GetValue("Database", "Username"),
+                                                          ini.GetValue("Database", "Password"));
+                     Application.EnableVisualStyles();
+                     Application.SetCompatibleTextRenderingDefault(false);
 
-                    Form MainForm = null;
-                    while (!BeQuit)
-                        try
-                        {
-                            MainForm = new MainForm();
-                            //frmMain = new TestAlarm();
-                            Application.Run(MainForm);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("OH. NO!" + ex.ToString());
-                        }
-                        finally
-                        {
-                            if (MainForm != null) MainForm.Dispose();
-                        }
-                    Environment.Exit(Environment.ExitCode);
+                     MainForm MainForm = null;
+                     //FormDemo demo = null;
+                     while (!BeQuit)
+                         try
+                         {
+                             MainForm = new MainForm();
+                             // frmMain = new TestAlarm();
+                             //demo = new FormDemo();
+                             Application.Run(MainForm);
+
+                         }
+                         catch (Exception ex)
+                         {
+                             Console.WriteLine("OH. NO!" + ex.ToString());
+                         }
+                         finally
+                         {
+                             if (MainForm != null) MainForm.Dispose();
+                         }
+                     Environment.Exit(Environment.ExitCode);
+                     //demo = new FormDemo();
+                     //Application.Run(demo);
                 }
                 else
                 {
                     MessageBox.Show("程序已经在运行，无法再次启动。", "已启动", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
+
             }
+
             //}
             //catch
             //{
             //    MessageBox.Show("Only one instance of this application is allowed!");
             //}
+
         }
 
         public static MachineManager MeterManager = new MachineManager();
@@ -81,4 +89,5 @@ namespace MicroDAQ
         public static FlowAlertManager M_flowAlert;
 
     }
+   
 }

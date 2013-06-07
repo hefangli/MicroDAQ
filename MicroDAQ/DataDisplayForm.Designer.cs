@@ -119,7 +119,7 @@
             this.dgvDB.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDB.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvDB.Location = new System.Drawing.Point(12, 320);
+            this.dgvDB.Location = new System.Drawing.Point(12, 307);
             this.dgvDB.Name = "dgvDB";
             this.dgvDB.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDB.RowHeadersVisible = false;
@@ -137,7 +137,7 @@
             this.grpDB.Controls.Add(this.btnInstant);
             this.grpDB.Controls.Add(this.btnRefreshDB);
             this.grpDB.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.grpDB.Location = new System.Drawing.Point(625, 320);
+            this.grpDB.Location = new System.Drawing.Point(625, 307);
             this.grpDB.Name = "grpDB";
             this.grpDB.Size = new System.Drawing.Size(162, 255);
             this.grpDB.TabIndex = 27;
@@ -154,6 +154,7 @@
             this.labDBState.Size = new System.Drawing.Size(65, 20);
             this.labDBState.TabIndex = 30;
             this.labDBState.Text = "状态未知";
+           // this.labDBState.Click += new System.EventHandler(this.labDBState_Click);
             // 
             // label3
             // 

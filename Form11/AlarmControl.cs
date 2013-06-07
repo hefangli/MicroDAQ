@@ -37,6 +37,8 @@ namespace MicroDAQ
         public int Slave { get; set; }
         public AlertCode AlertCode { get; private set; }
 
+
+
         private void AlarmControl_Load(object sender, EventArgs e)
         {
             this.mtxtSlave.Text = this.Slave.ToString();
