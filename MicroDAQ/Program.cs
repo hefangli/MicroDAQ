@@ -51,7 +51,7 @@ namespace MicroDAQ
                          try
                          {
                              MainForm = new MainForm();
-                             // frmMain = new TestAlarm();
+                             //frmMain = new TestAlarm();
                              //demo = new FormDemo();
                              Application.Run(MainForm);
 
