@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDAQ", "MicroDAQ\MicroD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCalcPaticleCount", "TestCalcPaticleCount\TestCalcPaticleCount.csproj", "{20190B69-2A12-420A-AB01-CD1CF4A7114F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Form11", "Form11\Form11.csproj", "{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,16 +35,6 @@ Global
 		{20190B69-2A12-420A-AB01-CD1CF4A7114F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{20190B69-2A12-420A-AB01-CD1CF4A7114F}.Release|x86.ActiveCfg = Release|x86
 		{20190B69-2A12-420A-AB01-CD1CF4A7114F}.Release|x86.Build.0 = Release|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Debug|x86.ActiveCfg = Debug|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Debug|x86.Build.0 = Debug|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Release|Any CPU.ActiveCfg = Release|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Release|x86.ActiveCfg = Release|x86
-		{DDA102AE-95AA-44C4-AF8A-B26A1A94EC0F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

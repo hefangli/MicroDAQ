@@ -204,7 +204,6 @@ namespace MicroDAQ
                      MessageBox.Show(ex.Message); 
                  }
 
-
               }          
          
             
@@ -216,19 +215,22 @@ namespace MicroDAQ
         /// 加载form窗体
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="e"></param>        
         private void FormDemo_Load(object sender, EventArgs e)
         {            
             try
             {
-                //数据库连接的情况
-                connection.Open();
-                //plc连接情况
-                //Program.M.Connect(); 
+                 //数据库连接的情况
+                 //connection.Open();
+                 //plc连接情况
+                 //Program.M.Connect(); 
+                bkwConnect.DoWork += new DoWorkEventHandler(bkwConnect_DoWork);
+                bkwConnect.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bkwConnect_RunWorkerCompleted);
+                bkwConnect.RunWorkerAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-              MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
 
             if(Program.RemoteCycle != null)
@@ -244,6 +246,12 @@ namespace MicroDAQ
             }
             catch
             { }
+        }
+
+        void bkwConnect_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ShowItems();
+            ShowDB();
         }
         /// <summary>
         /// 指令查询
