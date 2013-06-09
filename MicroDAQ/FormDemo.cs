@@ -15,7 +15,8 @@ namespace MicroDAQ
              InitializeComponent();                   
            
         }
-        SqlConnection connection = new SqlConnection(Program.DatabaseManager.ConnectionString);    
+        SqlConnection connection = new SqlConnection(Program.DatabaseManager.ConnectionString);
+        //DatabaseManager manage = new DatabaseManager();       
         private void btnInstant_Click(object sender, EventArgs e)
         {
             //显示即时数据
@@ -26,10 +27,10 @@ namespace MicroDAQ
         /// </summary>
         DataTable dtItems = null;
         public void ShowItems()
-        {
-            //PLC关闭的情况
-            if (Program.M.ConnectionState != ConnectionState.Open||Program.M==null)
-            {
+        {            
+            //PLC关闭的情况            
+            if (Program.M.ConnectionState != ConnectionState.Open)
+            {                
                 MessageBox.Show("PLC连接失败，尚未加载PLC数据！");
                 return;
             }
@@ -58,20 +59,19 @@ namespace MicroDAQ
                     //dtItems.Columns.Clear(); 
                     dtItems = new DataTable();
                     dtItems.Columns.AddRange(new DataColumn[]{
-                new DataColumn("参数ID"),
-                new DataColumn("参数名称"),
-                new DataColumn("参数类型"),
-                new DataColumn("数据采集值1"),
-                new DataColumn("PLC数据值1"),
-                new DataColumn("数据采集值2"),
-                new DataColumn("数据采集值3"),
-                new DataColumn("单位"),
-                new DataColumn("刷新时间"),
-                new DataColumn("存储点"),
-             
-                new DataColumn("PLC设备类型"),
-                new DataColumn("PLC状态"),
-                new DataColumn("PLC可信度")
+                    new DataColumn("参数ID"),
+                    new DataColumn("参数名称"),
+                    new DataColumn("参数类型"),
+                    new DataColumn("数据采集值1"),
+                    new DataColumn("PLC数据值1"),
+                    new DataColumn("数据采集值2"),
+                    new DataColumn("数据采集值3"),
+                    new DataColumn("单位"),
+                    new DataColumn("刷新时间"),
+                    new DataColumn("存储点"),             
+                    new DataColumn("PLC设备类型"),
+                    new DataColumn("PLC状态"),
+                    new DataColumn("PLC可信度")
                 });
 
                     if (connection.State == ConnectionState.Open)
@@ -89,6 +89,7 @@ namespace MicroDAQ
                         {
                             DataRow row = dtItems.NewRow();
 
+                           
                             DataItem meter = Program.M.Items[i];
                             DataRow tmp = dt.Rows[i];
 
@@ -152,17 +153,42 @@ namespace MicroDAQ
                         new DataColumn("PLC状态"),
                         new DataColumn("PLC可信度")});
                         DataRow row = table.NewRow();
-                        foreach (var item in Program.M.Items)
+                        if (Program.M == null)
                         {
-                            DataItem meter = item as DataItem;
-                            row["plc编号"] = meter.ID.ToString();
-                            row["plc数据值1"] = meter.Value.ToString();
-                            row["plc设备类型"] = meter.Type.ToString();
-                            row["plc状态"] = meter.State.ToString();
-                            row["plc可信度"] = meter.Quality.ToString();
-                            table.Rows.Add(row);
+                            MessageBox.Show("尚未加载plc数据！");
+                            return;
                         }
-                        this.dgvDB.DataSource = table;
+                        else
+                        {
+                            foreach (var item in Program.M.Items)
+                            {
+                                DataItem meter = item as DataItem;
+                                row["plc编号"] = meter.ID.ToString();
+                                row["plc数据值1"] = meter.Value.ToString();
+                                row["plc设备类型"] = meter.Type.ToString();
+                                row["plc状态"] = meter.State.ToString();
+                                row["plc可信度"] = meter.Quality.ToString();
+                                table.Rows.Add(row);
+                            }
+                            this.dgvDB.DataSource = table;
+                        }
+
+                        if(Program.M_flowAlert.Items!=null)
+                        {
+                            foreach (var item in Program.M_flowAlert.Items)
+                            {
+                                DataItem meter = item as DataItem;
+                                row["plc编号"] = meter.ID.ToString();
+                                row["plc数据值1"] = meter.Value.ToString();
+                                row["plc设备类型"] = meter.Type.ToString();
+                                row["plc状态"] = meter.State.ToString();
+                                row["plc可信度"] = meter.Quality.ToString();
+                                table.Rows.Add(row);
+                            }
+                            this.dgvDB.DataSource = table;
+
+
+                        }
                         //row["PLC数据值1"] = 1;
                         //row["PLC设备类型"] = 1;
                         //row["PLC状态"] = 1;
@@ -294,6 +320,15 @@ namespace MicroDAQ
         {
             if (Program.RemoteCycle != null)
                 Program.RemoteCycle.SetPause = false;
+            try
+            {
+                connection.Close();               
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         /// <summary>
