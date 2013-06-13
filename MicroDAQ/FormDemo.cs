@@ -12,10 +12,10 @@ namespace MicroDAQ
     {
         public FormDemo()
         {
-             InitializeComponent();                   
-           
+            InitializeComponent();            
         }
-        SqlConnection connection = new SqlConnection(Program.DatabaseManager.ConnectionString);            
+        SqlConnection connection = new SqlConnection(Program.DatabaseManager.ConnectionString);
+        #region PLC与OPCMES即时数据的显示
         private void btnInstant_Click(object sender, EventArgs e)
         {
             //显示即时数据
@@ -27,14 +27,23 @@ namespace MicroDAQ
         DataTable dtItems = null;
         public void ShowItems()
         {            
-            //PLC关闭的情况            
-            if (Program.M.ConnectionState != ConnectionState.Open)
-            {                
-                MessageBox.Show("PLC连接失败，尚未加载PLC数据！");
-                return;
-            }
+            //PLC关闭的情况   
+
+             if (Program.M.ConnectionState != ConnectionState.Open||Program.M==null)
+             {
+                 if (connection.State == ConnectionState.Closed)
+                 {
+                     MessageBox.Show("PLC连接失败，尚未加载PLC数据！");
+                     return;
+                 }
+                 else
+                 {
+                     return;
+                  }
+                           
+             }
             else
-            {            
+            {   //plc打开成功，数据库连接成功的情况         
                if (connection.State == ConnectionState.Open)
                {
                    this.labDBState.BackColor = Color.Green;
@@ -77,8 +86,8 @@ namespace MicroDAQ
                         new DataColumn("存储点"),             
                         new DataColumn("PLC设备类型"),
                         new DataColumn("PLC状态"),
-                        new DataColumn("PLC可信度") });            
-                                    
+                        new DataColumn("PLC可信度") }); 
+                              
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         //for (int i = 0; i < Program.M.Items.Count; i++)
@@ -129,7 +138,7 @@ namespace MicroDAQ
                     }
 
                     else
-                    {
+                    {//plc打开成功，数据库连接失败的情况
                         
                             this.labOPCState.BackColor = Color.Green;
                             this.labOPCState.ForeColor = Color.White;
@@ -197,6 +206,8 @@ namespace MicroDAQ
               
 
        }
+        #endregion
+        #region 加载form窗体
         /// <summary>
         /// 加载form窗体
         /// </summary>
@@ -237,11 +248,13 @@ namespace MicroDAQ
             GetOder();
 
         }
+        #endregion
+        #region 指令查询
         /// <summary>
         /// 指令查询
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>  
+        /// <param name="e"></param>          
         private void button1_Click(object sender, EventArgs e)
         {
             GetOder();
@@ -270,6 +283,8 @@ namespace MicroDAQ
             }
 
         }
+        #endregion
+        #region 测试报警灯
         /// <summary>
         /// 测试报警灯
         /// </summary>
@@ -326,10 +341,9 @@ namespace MicroDAQ
                 }
             }
         }
-
+        #endregion
         private void FormDemo_FormClosing(object sender, FormClosingEventArgs e)
-        {
-           
+        {           
             try
             {
                 connection.Close();               
@@ -342,7 +356,7 @@ namespace MicroDAQ
                 Program.RemoteCycle.SetPause = false;
 
         }
-
+        #region 配置情况
         /// <summary>
         /// 配置情况
         /// </summary>
@@ -393,10 +407,8 @@ namespace MicroDAQ
         }      
         private void btnRefreshDB_Click(object sender, EventArgs e)
         {
-             ShowDB();                        
-        }                   
-
-
-
+             ShowDB();
+        }
+        #endregion
     }
 }
