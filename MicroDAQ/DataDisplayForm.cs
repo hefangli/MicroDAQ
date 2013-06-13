@@ -53,7 +53,7 @@ namespace MicroDAQ
 
                 foreach (var item in Program.M.Items)
                 {
-                    DataItem meter = item as DataItem;
+                    Item meter = item as Item;
                     i++;
                     if (lsvItems.Items.Count < i)
                         lsvItems.Items.Add(new ListViewItem(new string[]{
@@ -80,7 +80,7 @@ namespace MicroDAQ
                 if (Program.M_flowAlert.Items != null)
                     foreach (var item in Program.M_flowAlert.Items)
                     {
-                        DataItem meter = item as DataItem;
+                        Item meter = item as Item;
                         i++;
                         if (lsvItems.Items.Count < i)
                             lsvItems.Items.Add(new ListViewItem(new string[]{

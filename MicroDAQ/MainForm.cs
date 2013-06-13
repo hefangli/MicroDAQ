@@ -9,12 +9,13 @@ using JonLibrary.OPC;
 using JonLibrary.Automatic;
 using JonLibrary.Common;
 using System.Threading;
+using MicroDAQ.UI;
 
 namespace MicroDAQ
 {
     public partial class MainForm : Form
     {
-        System.Data.ConnectionState ConnectionState;
+
         int plcCount;
         /// <summary>
         /// 每个PLC中数据项数量
@@ -27,7 +28,15 @@ namespace MicroDAQ
         uint[] ctMeterID;
         string[] plcConnection;//= string.Empty;
 
-        List<PLCStation> Plcs = new List<PLCStation>();
+
+        /// <summary>
+        /// 监控数据项
+        /// </summary>
+        public ItemsAddress DataItem { get; set; }
+        /// <summary>
+        /// 粒子流量报警
+        /// </summary>
+        public ItemsAddress FlowAlert { get; set; }
         public MainForm()
         {
             InitializeComponent();
@@ -41,7 +50,7 @@ namespace MicroDAQ
             ni.Icon = this.Icon;
             ni.Text = this.Text;
 
-            bool autoStart = false; ;
+            bool autoStart = false;
             try
             {
                 IniFile ini = new IniFile(AppDomain.CurrentDomain.BaseDirectory + "MicroDAQ.ini");
@@ -49,7 +58,7 @@ namespace MicroDAQ
                 this.tsslProject.Text = "项目代码：" + ini.GetValue("General", "ProjetCode");
                 this.tsslVersion.Text = "接口版本：" + ini.GetValue("General", "VersionCode");
                 autoStart = bool.Parse(ini.GetValue("AutoRun", "AutoStart"));
-                Duty = ini.GetValue("General", "Duty");
+
                 plcCount = int.Parse(ini.GetValue("PLCConfig", "Amount"));
 
                 plcConnection = new string[plcCount];
@@ -109,14 +118,14 @@ namespace MicroDAQ
                 case "Cfg":
                 case "Cfg-DataItem":
                     this.BeginInvoke(new MethodInvoker(delegate
-                                    {
-                                        this.tsslMeters.Text = "采集点：";
-                                        foreach (int ms in meters)
-                                            this.tsslMeters.Text += ms.ToString() + " ";
+                    {
+                        this.tsslMeters.Text = "采集点：";
+                        foreach (int ms in meters)
+                            this.tsslMeters.Text += ms.ToString() + " ";
 
-                                        foreach (int ds in dataItems)
-                                            this.tsslMeters.Text += ds.ToString() + " ";
-                                    }));
+                        foreach (int ds in dataItems)
+                            this.tsslMeters.Text += ds.ToString() + " ";
+                    }));
                     break;
                 case "CtMeters":
                     ctMeterID = (uint[])value[0];
@@ -142,7 +151,7 @@ namespace MicroDAQ
             items = new string[plcCount];
             for (int i = 0; i < plcCount; i++)
             {
-                items[i] = plcConnection[i] + "DB1,W30";
+                items[i] = plcConnection[i] + string.Format("DB{0},W{1}", 1, 30);
             }
             PLC.AddGroup("Cfg", 1, 0);
             PLC.AddItems("Cfg", items);
@@ -310,23 +319,23 @@ namespace MicroDAQ
         void UpdateCycle_WorkStateChanged(JonLibrary.Automatic.RunningState state)
         {
             this.BeginInvoke(new MethodInvoker(delegate
-                             {
-                                 switch (state)
-                                 {
-                                     case JonLibrary.Automatic.RunningState.Paused:
-                                         this.tsslUpdate.Text = "P";
-                                         this.btnPC.Text = "继续";
-                                         break;
-                                     case JonLibrary.Automatic.RunningState.Running:
-                                         this.tsslUpdate.Text = "R";
-                                         this.btnPC.Enabled = true;
-                                         this.btnPC.Text = "暂停";
-                                         break;
-                                     case JonLibrary.Automatic.RunningState.Stopped:
-                                         this.tsslUpdate.Text = "S";
-                                         break;
-                                 }
-                             }));
+            {
+                switch (state)
+                {
+                    case JonLibrary.Automatic.RunningState.Paused:
+                        this.tsslUpdate.Text = "P";
+                        this.btnPC.Text = "继续";
+                        break;
+                    case JonLibrary.Automatic.RunningState.Running:
+                        this.tsslUpdate.Text = "R";
+                        this.btnPC.Enabled = true;
+                        this.btnPC.Text = "暂停";
+                        break;
+                    case JonLibrary.Automatic.RunningState.Stopped:
+                        this.tsslUpdate.Text = "S";
+                        break;
+                }
+            }));
         }
 
 
@@ -383,6 +392,43 @@ namespace MicroDAQ
                 Thread.Sleep(200);
                 this.Close();
             }
+        }
+
+
+        int updateMeters;
+        int remoteMeters;
+
+        bool readConfig = false;
+        bool getConfig = false;
+        bool createMeters = false;
+        bool metersCreated = false;
+        bool started = false;
+        public void start()
+        {
+            if (!readConfig)
+            {
+                //等OPCSERVER启动
+                Thread.Sleep(Program.waitMillionSecond);
+                ReadConfig();
+                readConfig = true;
+            }
+
+            if (getConfig && !started)
+            {
+
+                CreateMeters();
+
+                started = true;
+                UpdateCycle = new CycleTask();
+                RemoteCtrl = new CycleTask();
+                Program.RemoteCycle = RemoteCtrl;
+                UpdateCycle.WorkStateChanged += new CycleTask.dgtWorkStateChange(UpdateCycle_WorkStateChanged);
+                RemoteCtrl.WorkStateChanged += new CycleTask.dgtWorkStateChange(RemoteCtrl_WorkStateChanged);
+                UpdateCycle.Run(update2, System.Threading.ThreadPriority.BelowNormal);
+                RemoteCtrl.Run(remoteCtrl, System.Threading.ThreadPriority.BelowNormal);
+                Start.SetExit = true;
+            }
+            Thread.Sleep(200);
         }
 
 
