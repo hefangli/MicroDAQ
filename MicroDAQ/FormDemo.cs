@@ -6,9 +6,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using MicroDAQ.DataItem;
 namespace MicroDAQ
 {
-    public partial class FormDemo : Form
+    public partial class FormDemo : Form 
     {
         public FormDemo()
         {
@@ -29,19 +30,19 @@ namespace MicroDAQ
         {            
             //PLC关闭的情况   
 
-             if (Program.M.ConnectionState != ConnectionState.Open||Program.M==null)
-             {
-                 if (connection.State == ConnectionState.Closed)
-                 {
-                     MessageBox.Show("PLC连接失败，尚未加载PLC数据！");
-                     return;
-                 }
-                 else
-                 {
-                     return;
-                  }
-                           
-             }
+            if (Program.M.ConnectionState != ConnectionState.Open || Program.M == null)
+            {//数据库连接失败
+                if (connection.State == ConnectionState.Closed)
+                {
+                    MessageBox.Show("PLC连接失败，尚未加载PLC数据！");
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+
+            }
             else
             {   //plc打开成功，数据库连接成功的情况         
                if (connection.State == ConnectionState.Open)
@@ -93,7 +94,7 @@ namespace MicroDAQ
                         //for (int i = 0; i < Program.M.Items.Count; i++)
                         {
                              DataRow row = dtItems.NewRow();
-                             DataItem meter = Program.M.Items[i];
+                             Item meter = Program.M.Items[i];
                              DataRow tmp = dt.Rows[i];
 
                              row["参数ID"] = tmp[0].ToString();
@@ -101,7 +102,7 @@ namespace MicroDAQ
                              row["参数类型"] = tmp[2].ToString();
                              row["数据采集值1"] = tmp[3].ToString();
                              row["PLC数据值1"] = meter.Value.ToString();
-                           // row["PLC数据值1"] = 1;
+                             //row["PLC数据值1"] = 1;
                              row["数据采集值2"] = tmp[4].ToString();
                              row["数据采集值3"] = tmp[5].ToString();
                              row["单位"] = tmp[6].ToString();
@@ -111,9 +112,9 @@ namespace MicroDAQ
                              row["PLC状态"] = meter.State.ToString();
                              row["plc可信度"] = meter.Quality.ToString();
 
-                            //row["PLC设备类型"] = 1;
-                            //row["PLC状态"] = 1;
-                            //row["plc可信度"] = 192;
+                             //row["PLC设备类型"] = 1;
+                             //row["PLC状态"] = 1;
+                             //row["plc可信度"] = 192;
 
                              dtItems.Rows.Add(row);
                              dgvDB.DataSource = dtItems;
@@ -170,7 +171,7 @@ namespace MicroDAQ
                             {
                                 foreach (var item in Program.M.Items)
                                 {
-                                    DataItem meter = item as DataItem;
+                                    Item meter = item as Item;
                                     row["plc编号"] = meter.ID.ToString();
                                     row["plc数据值1"] = meter.Value.ToString();
                                     row["plc设备类型"] = meter.Type.ToString();
@@ -185,7 +186,7 @@ namespace MicroDAQ
                             {
                                 foreach (var item in Program.M_flowAlert.Items)
                                 {
-                                    DataItem meter = item as DataItem;
+                                    Item meter = item as Item;
                                     row["plc编号"] = meter.ID.ToString();
                                     row["plc数据值1"] = meter.Value.ToString();
                                     row["plc设备类型"] = meter.Type.ToString();

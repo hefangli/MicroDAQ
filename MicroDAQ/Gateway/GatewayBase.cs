@@ -10,16 +10,16 @@ namespace MicroDAQ.Gateway
         /// <summary>
         /// 运行状态
         /// </summary>
-        public Gateway.RunningState RunningState
-        {
-            get { return state; }
-            set
-            {
-                OnStateChanging();
-                state = value;
-                OnStateChanged();
-            }
-        }
+        //public IGateway.RunningState RunningState
+        //{
+        //    get { return state; }
+        //    set
+        //    {
+        //        OnStateChanging();
+        //        state = value;
+        //        OnStateChanged();
+        //    }
+        //}
         private RunningState state;
         /// <summary>
         /// 启动

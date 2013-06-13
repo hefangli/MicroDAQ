@@ -104,13 +104,15 @@
     <Compile Include="DataItem\IDataItemManage.cs" />
     <Compile Include="FlowAlertManager.cs" />
     <Compile Include="DataItemManager.cs" />
-     <Compile Include="Gateway\GatewayBase.cs" />
-    <Compile Include="Gateway\IGateway.cs" />
-    <Compile Include="Gateway\RunningState.cs" />
-    <Compile Include="FormDemo.Designer.cs">
+    <Compile Include="FormDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDemo.designer.cs">
       <DependentUpon>FormDemo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsDemo.cs" />
+    <Compile Include="Gateway\GatewayBase.cs" />
+    <Compile Include="Gateway\IGateway.cs" />
+    <Compile Include="Gateway\RunningState.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,7 +11,7 @@ using MicroDAQ.DataItem;
 
 namespace MicroDAQ.Gateway
 {
-    public class OpcGateway : GatewayBase
+    public abstract class OpcGateway : GatewayBase
     {
 
 
@@ -26,7 +26,7 @@ namespace MicroDAQ.Gateway
             UpdateCycle = new CycleTask();
             RemoteCtrlCycle = new CycleTask();
             UpdateCycle.WorkStateChanged += new CycleTask.dgtWorkStateChange(UpdateCycle_WorkStateChanged);
-            RemoteCtrlCycle.WorkStateChanged += new CycleTask.dgtWorkStateChange(RemoteCtrl_WorkStateChanged);
+           //RemoteCtrlCycle.WorkStateChanged += new CycleTask.dgtWorkStateChange(RemoteCtrl_WorkStateChanged);
         }
 
         void UpdateCycle_WorkStateChanged(JonLibrary.Automatic.RunningState state)
