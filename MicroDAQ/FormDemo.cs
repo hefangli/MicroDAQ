@@ -28,7 +28,7 @@ namespace MicroDAQ
         DataTable dtItems = null;
         public void ShowItems()
         {            
-            //PLC关闭的情况   
+            //PLC关闭的情况 
 
             if (Program.M.ConnectionState != ConnectionState.Open || Program.M == null)
             {//数据库连接失败
@@ -156,12 +156,14 @@ namespace MicroDAQ
                             new DataColumn("PLC状态"),
                             new DataColumn("PLC可信度")});
                             DataRow row = table.NewRow();
+                         
                             //row["PLC数据值1"] = 1;
                             //row["PLC设备类型"] = 1;
                             //row["PLC状态"] = 1;
                             //row["plc可信度"] = 192;
                             //table.Rows.Add(row);
                             //this.dgvDB.DataSource = table;    
+
                             if (Program.M == null)
                             {
                                 MessageBox.Show("尚未加载plc数据！");
@@ -224,7 +226,7 @@ namespace MicroDAQ
             bkwConnect.DoWork += new DoWorkEventHandler(bkwConnect_DoWork);
             bkwConnect.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bkwConnect_RunWorkerCompleted);
             bkwConnect.RunWorkerAsync();            
-           
+            
             if(Program.RemoteCycle != null)
             Program.RemoteCycle.SetPause = true;               
                       
@@ -411,5 +413,10 @@ namespace MicroDAQ
              ShowDB();
         }
         #endregion
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
